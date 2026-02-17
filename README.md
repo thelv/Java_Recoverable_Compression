@@ -12,8 +12,8 @@
 ## 💡 Typical Use Case: Large Downloads
 
 Imagine downloading a 10GB compressed file over an unstable connection:
-1.  **Standard way**: Download 10GB `.gz` -> Decompress to 20GB file. Total space used: **30GB**. If download breaks at 9GB, you restart from 0. If success - you spend time to decompress 10GB file.
-2.  **Recoverable way**: Download and decompress simultaneously. Total space used: **~20GB**. If download breaks, resume from the last block and keep writing to the same output file. If download succeded - you have the goal file immideatly.
+1.  **Standard way**: Download 10GB `.gz` -> Decompress to 20GB file. Total space used: **30GB**. After downloading you spend time to decompress 10GB file.
+2.  **Recoverable way**: Download and decompress simultaneously. Total space used: **~20GB**. If download breaks, resume from the last block and keep writing to the same output file. After downloading you have the goal file immideatly.
 
 ## 🛠 How it works
 
