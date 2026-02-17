@@ -35,7 +35,14 @@ public class Main
 		InputStream inputStreamCompressedCutted=new FileInputStream(new File("comp_cutted.txt"));
 		OutputStream outputStreamDecompressed=new FileOutputStream(new File("decomp.txt"));
 	
-		RecoverableDecompressor z=new RecoverableDecompressorGZIP();	
+		RecoverableDecompressor z=new RecoverableDecompressorGZIP()
+		{
+			@Override
+			protected void onProgress(long bytesReaded, long bytesWrited)
+			{
+				System.out.printf("progress: %d %d\n", bytesReaded, bytesWrited);
+			}
+		};
 		RecoverableDecompressor.Result res;
 		try
 		{
@@ -114,12 +121,6 @@ class RecoverableDecompressorGZIP extends RecoverableDecompressor
 	protected InputStream decompressorCreate(InputStream inputStream) throws IOException
 	{		
 		return new GZIPInputStream(inputStream);
-	}
-
-	@Override //optional
-	protected void onProgress(long bytesReaded, long bytesWrited)
-	{
-		System.out.printf("progress: %d %d\n", bytesReaded, bytesWrited);
 	}
 }
 
