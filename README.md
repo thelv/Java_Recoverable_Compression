@@ -27,9 +27,11 @@ The framework splits the data into independent blocks. Each block is compressed 
 Simply extend the base classes to use your desired algorithm (e.g., GZIP):
 
 ```java
-class RecoverableDecompressorGZIP extends RecoverableDecompressor {
+class RecoverableDecompressorGZIP extends RecoverableDecompressor 
+{
     @Override
-    protected InputStream decompressorCreate(InputStream inputStream) throws IOException {		
+    protected InputStream decompressorCreate(InputStream inputStream) throws IOException 
+	{		
         return new GZIPInputStream(inputStream);
     }	
 	
@@ -40,13 +42,16 @@ class RecoverableDecompressorGZIP extends RecoverableDecompressor {
 	}
 }
 
-class RecoverableCompressorGZIP extends RecoverableCompressor {
+class RecoverableCompressorGZIP extends RecoverableCompressor 
+{
     @Override
-    protected OutputStream compressorCreate(OutputStream outputStream) throws IOException {		
+    protected OutputStream compressorCreate(OutputStream outputStream) throws IOException 
+	{		
         return new GZIPOutputStream(outputStream);
     }
     
-    RecoverableCompressorGZIP(InputStream inputStream, OutputStream outputStream, int blockSize) throws IOException {
+    RecoverableCompressorGZIP(InputStream inputStream, OutputStream outputStream, int blockSize) throws IOException 
+	{
         super(inputStream, outputStream, blockSize);
     }
 }
