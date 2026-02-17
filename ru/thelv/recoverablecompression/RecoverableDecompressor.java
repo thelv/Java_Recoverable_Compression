@@ -30,7 +30,7 @@ public abstract class RecoverableDecompressor
 		//
 	}
 	
-	RecoveryPoint getRecoveryPoint()
+	public RecoveryPoint getRecoveryPoint()
 	{
 		return recoveryPoint;
 	}

@@ -72,7 +72,11 @@ public class Main
 		//continue decompresion from recovery point
 			
 		byte[] state=z.stateSerialize();				
-		RecoverableDecompressor.RecoveryPoint recoveryPoint=RecoverableDecompressor.stateDeserialize(state);
+		//RecoverableDecompressor.RecoveryPoint recoveryPoint=RecoverableDecompressor.stateDeserialize(state);
+		//Or if right from the object
+		//***
+		//RecoverableDecompressor.RecoveryPoint recoveryPoint=z.getRecoveryPoint();
+		//***
 		System.out.printf("recovery point: %d %d\n", recoveryPoint.compressedN, recoveryPoint.decompressedN);
 
 		//skip bytes in input file
