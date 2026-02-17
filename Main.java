@@ -67,6 +67,7 @@ public class Main
 			
 			case DATA_CUTTED:
 				System.out.println("data cutted on first try");
+				break;
 			
 			default:
 				break;				
@@ -115,6 +116,7 @@ public class Main
 			
 			case DATA_CUTTED:
 				System.out.println("data cutted on second try");
+				break;
 			
 			default:
 				break;				
