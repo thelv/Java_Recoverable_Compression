@@ -44,3 +44,6 @@ class RecoverableCompressorGZIP extends RecoverableCompressor {
         super(inputStream, outputStream, blockSize);
     }
 }
+```
+
+The working example is in Main.java

@@ -46,4 +46,4 @@ class RecoverableCompressorGZIP extends RecoverableCompressor {
 }
 ```
 
-The working example is in Main.java
+The working example is in "Main.java" file
