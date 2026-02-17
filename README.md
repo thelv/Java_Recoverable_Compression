@@ -1,0 +1,46 @@
+# RecoverableCompression
+
+**RecoverableCompression** is a Java framework that enables stateful, resumable decompression of data streams. It allows you to process compressed data on the fly and resume exactly where you left off if the stream is interrupted.
+
+## 🚀 Key Features
+
+* **Decompress on the fly**: Process incoming data directly to the final file. No need to store the full compressed archive on disk.
+* **Resume support**: If the input stream is interrupted (e.g., lost network connection), save a `RecoveryPoint` and resume later.
+* **Storage & Time Economy**: You don't need double space (for both compressed and decompressed files), and your file is ready the moment the download finishes.
+* **Universal Wrapper**: Can wrap any standard Java streamable compression library (GZIP, Zstd, Snappy, etc.).
+
+## 💡 Typical Use Case: Large Downloads
+
+Imagine downloading a 10GB compressed file over an unstable connection:
+1.  **Standard way**: Download 10GB `.gz` -> Decompress to 20GB file. Total space used: **30GB**. If download breaks at 9GB, you restart from 0.
+2.  **Recoverable way**: Download and decompress simultaneously. Total space used: **~20GB**. If download breaks, resume from the last block and keep writing to the same output file.
+
+## 🛠 How it works
+
+The framework splits the data into independent blocks. Each block is compressed using your chosen algorithm. This "block-aware" structure allows the decompressor to synchronize and resume from any block boundary.
+
+
+
+## 💻 Code Example
+
+### 1. Implementation
+Simply extend the base classes to use your desired algorithm (e.g., GZIP):
+
+```java
+class RecoverableDecompressorGZIP extends RecoverableDecompressor {
+    @Override
+    protected InputStream decompressorCreate(InputStream inputStream) throws IOException {		
+        return new GZIPInputStream(inputStream);
+    }	
+}
+
+class RecoverableCompressorGZIP extends RecoverableCompressor {
+    @Override
+    protected OutputStream compressorCreate(OutputStream outputStream) throws IOException {		
+        return new GZIPOutputStream(outputStream);
+    }
+    
+    RecoverableCompressorGZIP(InputStream inputStream, OutputStream outputStream, int blockSize) throws IOException {
+        super(inputStream, outputStream, blockSize);
+    }
+}
