@@ -40,6 +40,12 @@ class RecoverableDecompressorGZIP extends RecoverableDecompressor
 	{
 		System.out.printf("progress: %d %d\n", bytesReaded, bytesWrited);
 	}
+	
+	@Override //optional
+	protected void onBlockCompleted(RecoverableDecompressor.RecoveryPoint recoveryPoint) 
+	{
+		System.out.printf("block completed: %d %d\n", recoveryPoint.compressedN, recoveryPoint.decompressedN);
+	}
 }
 
 class RecoverableCompressorGZIP extends RecoverableCompressor 

@@ -42,6 +42,12 @@ public class Main
 			{
 				System.out.printf("progress: %d %d\n", bytesReaded, bytesWrited);
 			}
+			
+			@Override 
+			protected void onBlockCompleted(RecoverableDecompressor.RecoveryPoint recoveryPoint) 
+			{
+				System.out.printf("block completed: %d %d\n", recoveryPoint.compressedN, recoveryPoint.decompressedN);
+			}
 		};
 		RecoverableDecompressor.Result res;
 		try

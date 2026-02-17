@@ -30,6 +30,11 @@ public abstract class RecoverableDecompressor
 		//
 	}
 	
+	protected void onBlockCompleted(RecoveryPoint recoveryPoint)
+	{
+		//
+	}
+	
 	public RecoveryPoint getRecoveryPoint()
 	{
 		return recoveryPoint;
@@ -137,6 +142,7 @@ public abstract class RecoverableDecompressor
 					this.recoveryPoint.decompressedN+=bytesWrited;
 					this.recoveryPoint.compressedN+=blockSize+4;
 					blockHeaderReader.reset();
+					onBlockCompleted(recoveryPoint);
 					break;
 				}
 				else
