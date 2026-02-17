@@ -35,7 +35,12 @@ public abstract class RecoverableDecompressor
 	class BlockInputStream extends InputStream
 	{
 		private InputStream inputStream;
-		private int blockSize=0, bytesReaded=0;			
+		private int blockSize=0, bytesReaded=0;
+		
+		int getBytesReaded()
+		{
+			return bytesReaded;
+		}
 		
 		public BlockInputStream(InputStream inputStream)
 		{
@@ -101,10 +106,10 @@ public abstract class RecoverableDecompressor
 					break;
 					
 				case InputStreamFixSizeDataReader.Result.NO_DATA:
-					return RecoverableDecompressor.Result.SUCCESS;
+					return Result.SUCCESS;
 					
 				case InputStreamFixSizeDataReader.Result.DATA_CUTTED:
-					return RecoverableDecompressor.Result.DATA_CUTTED;
+					return Result.DATA_CUTTED;
 					
 				default:
 					break;
@@ -120,6 +125,10 @@ public abstract class RecoverableDecompressor
 				if(len==-1)
 				{
 					decompressor.close();
+					if(blockInputStream.getBytesReaded()<blockSize)
+					{
+						return Result.DATA_CUTTED;
+					}
 					this.recoveryPoint.decompressedN+=bytesWrited;
 					this.recoveryPoint.compressedN+=blockSize+4;					
 					blockHeaderReader.reset();
