@@ -1,7 +1,5 @@
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -41,7 +39,7 @@ public class Main
 		RecoverableDecompressor.Result res;
 		try
 		{
-			res=z.start(inputStreamCompressedCutted, outputStreamDecompressed, 1024, new RecoverableDecompressor.RecoveryPoint(0, 0));
+			res=z.start(inputStreamCompressedCutted, outputStreamDecompressed, 2, new RecoverableDecompressor.RecoveryPoint(0, 0));
 		}
 		catch(Exception e)
 		{
@@ -68,7 +66,7 @@ public class Main
 			
 		byte[] state=z.stateSerialize();				
 		RecoverableDecompressor.RecoveryPoint recoveryPoint=RecoverableDecompressor.stateDeserialize(state);
-		System.out.println("recovery point: "+Long.toString(recoveryPoint.compressedN)+" "+Long.toString(recoveryPoint.decompressedN));
+		System.out.printf("recovery point: %d %d\n", recoveryPoint.compressedN, recoveryPoint.decompressedN);
 
 		//skip bytes in input file
 
@@ -85,7 +83,7 @@ public class Main
 				
 		try
 		{
-			res=z.start(inputStreamCompressed, outputStreamDecompressed, 1024, recoveryPoint);
+			res=z.start(inputStreamCompressed, outputStreamDecompressed, 2, recoveryPoint);
 		}
 		catch(Exception e)
 		{
@@ -116,7 +114,13 @@ class RecoverableDecompressorGZIP extends RecoverableDecompressor
 	protected InputStream decompressorCreate(InputStream inputStream) throws IOException
 	{		
 		return new GZIPInputStream(inputStream);
-	}	
+	}
+
+	@Override //optional
+	protected void onProgress(long bytesReaded, long bytesWrited)
+	{
+		System.out.printf("progress: %d %d\n", bytesReaded, bytesWrited);
+	}
 }
 
 class RecoverableCompressorGZIP extends RecoverableCompressor

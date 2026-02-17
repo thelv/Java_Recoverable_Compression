@@ -32,6 +32,12 @@ class RecoverableDecompressorGZIP extends RecoverableDecompressor {
     protected InputStream decompressorCreate(InputStream inputStream) throws IOException {		
         return new GZIPInputStream(inputStream);
     }	
+	
+	@Override //optional
+	protected void onProgress(long bytesReaded, long bytesWrited)
+	{
+		System.out.printf("progress: %d %d\n", bytesReaded, bytesWrited);
+	}
 }
 
 class RecoverableCompressorGZIP extends RecoverableCompressor {
@@ -46,4 +52,7 @@ class RecoverableCompressorGZIP extends RecoverableCompressor {
 }
 ```
 
-The working example is in "Main.java" file
+The full working example is in "Main.java" file:
+- Compression
+- Simulated interruption
+- Recovery from interruption point

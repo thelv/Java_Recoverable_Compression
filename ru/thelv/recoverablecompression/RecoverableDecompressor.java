@@ -25,6 +25,11 @@ public abstract class RecoverableDecompressor
 		}
 	}
 	
+	protected void onProgress(long bytesReaded, long bytesWrited)
+	{
+		//
+	}
+	
 	RecoveryPoint getRecoveryPoint()
 	{
 		return recoveryPoint;
@@ -130,7 +135,7 @@ public abstract class RecoverableDecompressor
 						return Result.DATA_CUTTED;
 					}
 					this.recoveryPoint.decompressedN+=bytesWrited;
-					this.recoveryPoint.compressedN+=blockSize+4;					
+					this.recoveryPoint.compressedN+=blockSize+4;
 					blockHeaderReader.reset();
 					break;
 				}
@@ -138,9 +143,10 @@ public abstract class RecoverableDecompressor
 				{
 					outputStream.write(buffer, 0, len);
 					bytesWrited+=len;
+					onProgress(this.recoveryPoint.compressedN+4+blockInputStream.getBytesReaded(), this.recoveryPoint.decompressedN+bytesWrited);
 				}
 			}
-		}	 
+		}
     }
 	
 	abstract protected InputStream decompressorCreate(InputStream inputStream) throws IOException;              
