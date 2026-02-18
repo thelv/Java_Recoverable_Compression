@@ -112,13 +112,13 @@ public abstract class RecoverableDecompressor
 			while(! blockHeaderReader.read());			
 			switch(blockHeaderReader.getResult())
 			{
-				case InputStreamFixSizeDataReader.Result.SUCCESS:
+				case SUCCESS:
 					break;
 					
-				case InputStreamFixSizeDataReader.Result.NO_DATA:
+				case NO_DATA:
 					return Result.SUCCESS;
 					
-				case InputStreamFixSizeDataReader.Result.DATA_CUTTED:
+				case DATA_CUTTED:
 					return Result.DATA_CUTTED;
 					
 				default:
